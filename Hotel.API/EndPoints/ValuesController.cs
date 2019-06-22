@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Hotel.API.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Hotel.API.Controllers
@@ -10,11 +11,23 @@ namespace Hotel.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private HotelDbContext _context;
+        public ValuesController(HotelDbContext context)
+        {
+            _context = context;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
+        }
+
+        [HttpGet, Route("/users")]
+        public ActionResult<IEnumerable<string>> Users()
+        {
+            return _context.Users.Select(x => x.UserName).ToList();
         }
 
         // GET api/values/5
