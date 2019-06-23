@@ -25,26 +25,30 @@ namespace Hotel.API.BussinesLogic.Services
             _userManager = userManager;
             _TSettings = TSettings.Value;
         }
-
-        public async Task<bool> RequestLogin(LoginViewModel loginModel)
+        
+        public async Task<(bool logged, JwtSecurityToken token)> RequestLogin(LoginViewModel loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
             var canLogin = user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password);
-            return canLogin ? SetUserToken(user) : canLogin;
+            var result = (logged: canLogin, token: new JwtSecurityToken());
+
+            if (canLogin)
+                result.token = SetUserToken(user);
+
+            return result;
         }
 
-        private bool SetUserToken(ApplicationUser user)
+        private JwtSecurityToken SetUserToken(ApplicationUser user)
         {
             var loginKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_TSettings.SecretKey));
 
-            var token = new JwtSecurityToken(
+            return new JwtSecurityToken(
                 issuer: _TSettings.Issuer,
                 audience: _TSettings.Audience,
-                expires: _TSettings.Expiration,
+                expires: DateTime.Now.AddHours(7),
                 claims: GetNewClaims(user),
                 signingCredentials: new SigningCredentials(loginKey, SecurityAlgorithms.HmacSha256)
                 );
-            return true;
         }
 
         private static Claim[] GetNewClaims(ApplicationUser user)

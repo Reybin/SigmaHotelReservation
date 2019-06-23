@@ -10,6 +10,5 @@ namespace Hotel.API.Data.DTO
         public string SecretKey { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
-        public virtual DateTime Expiration { get { return DateTime.Now.AddHours(30); } }
     }
 }
