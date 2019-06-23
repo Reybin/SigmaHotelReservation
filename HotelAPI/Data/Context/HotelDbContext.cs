@@ -16,6 +16,7 @@ namespace HotelAPI.Data.Context
         }
 
         public DbSet<Hotel> Hotel { get; set; }
+        public DbSet<RoomType> RoomType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
