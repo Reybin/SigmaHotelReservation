@@ -338,3 +338,6 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/HotelAPI/BussinesLogic/Services/Contracts/Base/IBaseService.cs
+/HotelAPI/BussinesLogic/Services/Contracts/IHotelService.cs
+/HotelAPI/BussinesLogic/Services/HotelService.cs
