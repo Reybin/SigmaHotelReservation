@@ -1,9 +1,8 @@
 # SigmaHotelReservation
-Simple solution for hotel reservation and bedroom availability.
+Solucion simple para reservas de Hotel
 
 # INSTRUCCIONES
-Ambos proyectos estan separados por lo cual luego de subir el API por medio de Visual Studios
-Se debe montar la SPA cliente por medio de node sirva recordar
+Ambos proyectos están separados por lo cual luego de subir el API por medio de Visual Studio 2019 .NET CORE 2.2, Se debe montar la SPA cliente por medio de node sirva recordar
 
-- intalar los paquetes de node: _npm install_
+- instalar los paquetes de node: _npm install_
 - luego iniciar: _npm start_
