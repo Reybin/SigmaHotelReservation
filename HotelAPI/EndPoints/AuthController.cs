@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 using HotelAPI.BussinesLogic.Services.Contracts;
 using HotelAPI.Data.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelAPI.EndPoints
 {
     [Route("api/[controller]")]
     [AllowAnonymous]
+    [EnableCors("SiteCorsPolicy")]
     public class AuthController : Controller
     {
         private ISecurityService _securityService;
