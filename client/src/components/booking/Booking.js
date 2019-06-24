@@ -1,7 +1,10 @@
 import React, { Component } from "react";
+import Nav from "../Nav";
 
-function Booking() {
-  return <h1>Hello!</h1>;
+class Booking extends Component {
+  render() {
+    return <Nav />;
+  }
 }
 
 export default Booking;

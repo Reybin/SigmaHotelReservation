@@ -24,7 +24,7 @@ class LoginForm extends Component {
   };
 
   manageUnAuthorizedLogin() {
-    alert("NOT LOGGED!!");
+    alert("USUARIO O CONTRASENA INCORECTA");
   }
 
   render() {

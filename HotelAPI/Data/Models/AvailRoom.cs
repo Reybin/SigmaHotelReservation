@@ -1,7 +1,10 @@
-﻿namespace HotelAPI.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace HotelAPI.Data.Models
 {
     public class AvailRoom
     {
+        [Key]
         public string AvailToken { get; set; }
         public int RoomTypeId { get; set; }
         public RoomType RoomType { get; set; }
