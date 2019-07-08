@@ -1,0 +1,8 @@
+.imagePreview {
+    width: 100%;
+    border: 1px solid #b9b9b9;
+    padding: 1px;
+    background: white;
+    border-radius: 3px;
+    box-shadow: 1px 5px 6px #aba5a58a;
+}

@@ -4,14 +4,16 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import "../../../components/generalStyles.css";
+
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
-
+  const [createValues, setCreateValues] = React.useState({
+    name: ' ',
+    urlImage: ' '
+  });
   function handleClickOpenCreate() {
     setOpen(true);
   }
@@ -20,8 +22,19 @@ export default function FormDialog() {
     setOpen(false);
   }
 
+  const handleCreateChange = name => event => {
+    setCreateValues({ ...createValues, [name]: event.target.value });
+  };
+
+
   return (
+
     <div>
+
+      <div className="hotelHeader">
+         <img src="~/resources/images/hotels-header.jpg" />
+      </div>
+
       <Button variant="outlined" color="primary" onClick={handleClickOpenCreate}>
        Crear
       </Button>
@@ -34,14 +47,16 @@ export default function FormDialog() {
       >
         <DialogTitle id="form-dialog-title">Nuevo Hotel</DialogTitle>
         <DialogContent>
-        <Grid item xs={6}>
-        <TextField
+        <div className="row">
+            <div className="col-md-6">
+            <TextField
             autoFocus
             margin="dense"
             id="name"
             label="Nombre"
             type="text"
-            ref={input => (this.name = input)}
+            value={createValues.name}
+            onChange={handleCreateChange('name')}
             fullWidth
           />
            <TextField            
@@ -49,20 +64,22 @@ export default function FormDialog() {
             id="urlImage"
             label="Imagen"
             type="text"
-            ref={input => (this.urlImage = input)}
+            value={createValues.urlImage}
+            onChange={handleCreateChange('urlImage')}
             fullWidth
           />
-        </Grid>
-        <Grid item xs={6}>
-          <image src={this.urlImage.value}/>
-        </Grid>                
+            </div>
+            <div className="col-md-6">
+                <img className="imagePreview" src={createValues.urlImage}/>
+            </div>
+        </div>                        
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseCreate} color="primary">
+          <Button onClick={handleCloseCreate} variant="contained" color="default">
             Cancel
           </Button>
-          <Button onClick={handleCloseCreate} color="primary">
-            Subscribe
+          <Button onClick={handleCloseCreate} variant="contained" color="primary">
+            Guardar
           </Button>
         </DialogActions>
       </Dialog>

@@ -4,7 +4,7 @@ import LoginForm from "./user/LoginForm";
 import RegisterForm from "./user/RegisterForm";
 import Booking from "./booking/Booking";
 import Nav from "./Nav.js";
-import Hotel from "./cruds/hotel";
+import Hotel from "./cruds/hotels/hotel";
 
 function Layout() {
   return (
