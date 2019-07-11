@@ -1,9 +1,20 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import { Hidden } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  nav: {
+    // work around para no perder tiempo con el manejo de layout segun estado del a sesion ya que no fue pedido
+    display: (localStorage.getItem("authToken")) ? 'block' : 'none'
+  },
+});
 
 export default function Nav() {
+  const classes = useStyles();
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div className={classes.nav}>     
+        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
         <a className="navbar-brand" href="#">
           SigmaHotel
         </a>
@@ -27,5 +38,6 @@ export default function Nav() {
           </ul>
         </div>
       </nav>
+      </div>
     );
 }
