@@ -7,11 +7,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles({
   card: {
@@ -59,7 +54,7 @@ const CommonCard = (props) => {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" variant="outlined" color="primary" >
+        <Button size="small" variant="outlined" color="primary" onClick={props.handleEdit} >
           EDITAR
         </Button>
         <Button size="small" variant="outlined" color="secondary" >
