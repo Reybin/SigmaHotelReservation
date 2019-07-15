@@ -1,5 +1,7 @@
-﻿using HotelAPI.Data.Context;
+﻿using HotelAPI.BussinesLogic.Services.Contracts;
+using HotelAPI.Data.Context;
 using HotelAPI.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HotelAPI.BussinesLogic.Services
 {
-    public class RoomTypeService
+    public class RoomTypeService : IRoomTypeService
     {
         private HotelDbContext _context;
         public RoomTypeService(HotelDbContext context)
@@ -24,14 +26,17 @@ namespace HotelAPI.BussinesLogic.Services
         {
             var roomType = _context.RoomType.FirstOrDefault(x => x.Id == key);
             if (roomType != null)
+            {
                 _context.RoomType.Remove(roomType);
+                _context.SaveChanges();
+            }
         }
 
-        public List<Hotel> GetAll() => _context.Hotel.ToList();
+        public List<RoomType> GetAll() => _context.RoomType.ToList();
 
         public async Task<(bool updated, RoomType model)> Update(RoomType model)
         {
-            var roomTypeToUpdate = _context.RoomType.FirstOrDefault(x => x.Id == model.Id);
+            var roomTypeToUpdate = _context.RoomType.AsNoTracking().FirstOrDefault(x => x.Id == model.Id);
             var result = (updated: false, model);
             if (roomTypeToUpdate != null)
             {

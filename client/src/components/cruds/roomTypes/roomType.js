@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import "../../../components/generalStyles.css";
 import CardList from "../../commons/CardList";
 import CommonDialog from "../../commons/Dialog";
-import HotelManager from "../../callHandlers/Hotel/HotelHandler";
+import Manager from "../../callHandlers/Hotel/RoomTypeHandler";
 
 export default function FormDialog() {
   const [open, setOpen] = React.useState(false);
@@ -13,7 +13,7 @@ export default function FormDialog() {
       name: " ",
       urlImage: " "
     },
-    entityName: "Hotel",
+    entityName: "Tipo de Habitacion",
     action: ""
   });
 
@@ -25,12 +25,12 @@ export default function FormDialog() {
 
   const [timeToRefreshList, setListRefrsher] = React.useState(false);
 
-  const [hotelList, setHotels] = React.useState([]);
+  const [typeList, setTypes] = React.useState([]);
   React.useEffect(() => {
-    HotelManager.getAll().then(response => {
-      setHotels(response);
+    Manager.getAll().then(response => {
+      setTypes(response);
     });
-  }, [hotelList.count, timeToRefreshList]);
+  }, [typeList.count, timeToRefreshList]);
 
   function handleClickOpen() {
     setOpen(true);
@@ -48,14 +48,21 @@ export default function FormDialog() {
   };
 
   const handleDelete = object => event => {
-    HotelManager.delete(object.id).then(res => {
+    Manager.delete(object.id).then(res => {
       setListRefrsher(!timeToRefreshList);
     });
   };
+
+  const handleSave = object => {
+    Manager.handleSave(object).then(res => {
+      handleClose();
+    });
+  };
+
   return (
     <div>
       <div className="hotelHeader">
-        <span>Listado de Hoteles</span>
+        <span>Listado de Tipos de Habitaciones</span>
       </div>
       <div className="container">
         <div className="hotelCreator">
@@ -67,14 +74,14 @@ export default function FormDialog() {
             color="primary"
             onClick={handleClickOpen}
           >
-            Crear Hotel
+            Crear Tipo
           </Button>
         </div>
         <div className="hotelsContainer">
           <div className="row">
             <CardList
               handleEdit={handleEdit}
-              items={hotelList}
+              items={typeList}
               handleDelete={handleDelete}
             />
           </div>
@@ -86,6 +93,7 @@ export default function FormDialog() {
           action={values.action}
           entityName={values.entityName}
           handleClose={handleClose}
+          handleSave={handleSave}
           action="Crear"
         />
       </div>

@@ -29,33 +29,35 @@ class RegisterForm extends Component {
 
   render() {
     return (
-      <div className="card">
-        <div className="card-body">
-          <div className="form form-register col-md-6 offset-3">
-            <h2 className="display-5">Iniciar Sesion</h2>
-            <form action="" className="">
-              <input
-                className="form-control"
-                type="text"
-                placeholder="Usuario"
-                ref={input => (this.userName = input)}
-              />
-              <input
-                className="form-control"
-                type="password"
-                placeholder="Contraseña"
-                ref={input => (this.password = input)}
-              />
-              <button
-                className="btn btn-lg btn-primary btn-block"
-                onClick={this.handleRegister}
-              >
-                GUARDAR
-              </button>
-            </form>
-            <Link to={"/"} className="nav-link">
-              Ya tienes usuario?
-            </Link>
+      <div className="overAll">
+        <div className="card">
+          <div className="card-body">
+            <div className="form form-register col-md-6 offset-3">
+              <h3 className="display-5">Registrarse</h3>
+              <form action="" className="">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Usuario"
+                  ref={input => (this.userName = input)}
+                />
+                <input
+                  className="form-control"
+                  type="password"
+                  placeholder="Contraseña"
+                  ref={input => (this.password = input)}
+                />
+                <button
+                  className="btn btn-lg btn-primary btn-block"
+                  onClick={this.handleRegister}
+                >
+                  GUARDAR
+                </button>
+              </form>
+              <Link to={"/"} className="nav-link">
+                Ya tienes usuario?
+              </Link>
+            </div>
           </div>
         </div>
       </div>

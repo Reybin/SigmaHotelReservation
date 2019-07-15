@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HotelAPI.BussinesLogic.Services.Contracts
 {
-    interface IRoomTypeService : IBaseService<RoomType,RoomType, int>
+    public interface IRoomTypeService : IBaseService<RoomType,RoomType, int>
     {
     }
 }

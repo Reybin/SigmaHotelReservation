@@ -1,6 +1,7 @@
 ﻿using HotelAPI.BussinesLogic.Services.Contracts;
 using HotelAPI.Data.Context;
 using HotelAPI.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,14 +26,17 @@ namespace HotelAPI.BussinesLogic.Services
         {
             var hotel = _context.Hotel.FirstOrDefault(x => x.Id == key);
             if (hotel != null)
+            {
                 _context.Hotel.Remove(hotel);
+                _context.SaveChanges();
+            }
         }
 
         public List<Hotel> GetAll() => _context.Hotel.ToList();
 
         public async Task<(bool updated, Hotel model)> Update(Hotel model)
         {
-            var hotelToUpdate = _context.Hotel.FirstOrDefault(x => x.Id == model.Id);
+            var hotelToUpdate = _context.Hotel.AsNoTracking().FirstOrDefault(x => x.Id == model.Id);
             var result = (updated: false, model: model);
             if (hotelToUpdate != null)
             {                

@@ -1,5 +1,7 @@
 .login-container {
-  margin-top: 10%;
+  padding-top: 10%;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .form input {
@@ -7,10 +9,26 @@
   margin-bottom: 20px;
 }
 
-.form-register {
-  margin-top: 10%;
+.login-container h2 {
+  color: whitesmoke;
 }
 
 .card {
   margin-top: 10%;
+}
+
+.overAll {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  overflow: unset;
+  background-image: url("/resources/images/home-bg.jpg");
+  background-size: cover;
+}
+
+.overAll ul {
+  list-style: none;
+  padding: 0px;
 }

@@ -29,69 +29,94 @@ namespace HotelAPI
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var corsBuilder = new CorsPolicyBuilder();
-            corsBuilder.AllowAnyHeader();
-            corsBuilder.AllowAnyMethod();
-            corsBuilder.AllowAnyOrigin(); // For anyone access.
-            //corsBuilder.WithOrigins("http://localhost:56573"); // for a specific url. Don't add a forward slash on the end!
-            corsBuilder.AllowCredentials();
 
+
+            var origins = new string[] {
+                "http://localhost:3000", // development
+		        "http://localhost/TM", // IIS
+	        };
             services.AddCors(options =>
             {
-                options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
-            });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HotelConnection")));
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<HotelDbContext>()
-                .AddDefaultTokenProviders();
-            services.Configure<TokenSettingsDTO>(Configuration.GetSection("TokenSettings"));
-
-            var TSettings = Configuration.GetSection("TokenSettings");
-
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options => {
-                options.SaveToken = true;
-                options.RequireHttpsMetadata = false;
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.AddPolicy("custom",
+                builder =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuer = TSettings["Issuer"],
-                    ValidAudience = TSettings["Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(TSettings["SecretKey"]))
-                };
+                    builder.WithOrigins(origins)
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
 
             });
 
-            services.AddTransient<ISecurityService, SecurityService>();
-            services.AddTransient<IUserService, UserService>();
+
+
+
+
+                //var corsBuilder = new CorsPolicyBuilder();// for a specific url. Don't add a forward slash on the end!
+                //corsBuilder.AllowAnyHeader();
+                //corsBuilder.AllowAnyMethod();
+                ////corsBuilder.AllowAnyOrigin(); // For anyone access.
+                //corsBuilder.AllowCredentials();
+
+                //services.AddCors(options =>
+                //{
+                //    options.AddPolicy("SiteCorsPolicy", corsBuilder.Build());
+                //});
+
+                services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                services.AddDbContext<HotelDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HotelConnection")));
+                services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<HotelDbContext>()
+                    .AddDefaultTokenProviders();
+                services.Configure<TokenSettingsDTO>(Configuration.GetSection("TokenSettings"));
+
+                var TSettings = Configuration.GetSection("TokenSettings");
+
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false;                 
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidIssuer = TSettings["Issuer"],
+                        ValidAudience = TSettings["Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(TSettings["SecretKey"]))
+                    };
+
+                });
+
+                services.AddTransient<ISecurityService, SecurityService>();
+                services.AddTransient<IUserService, UserService>();
+                services.AddTransient<IHotelService, HotelService>();
+                services.AddTransient<IRoomTypeService, RoomTypeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
+            public void Configure(IApplicationBuilder app, IHostingEnvironment env)
             {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+                if (env.IsDevelopment())
+                {
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                    app.UseHsts();
+                }
 
-            SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
-            app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseMvc();
-            app.UseCors(options => options.AllowAnyOrigin());
+                SeedDatabase.Initialize(app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope().ServiceProvider);
+                app.UseHttpsRedirection();
+                app.UseAuthentication();
+                app.UseMvc();
+                app.UseCors("custom");
+            }
         }
     }
-}

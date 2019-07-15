@@ -13,7 +13,7 @@ namespace HotelAPI.EndPoints
 {
     [Route("api/[controller]")]
     [AllowAnonymous]
-    [EnableCors("SiteCorsPolicy")]
+    [EnableCors("custom")]
     public class AuthController : Controller
     {
         private ISecurityService _securityService;
